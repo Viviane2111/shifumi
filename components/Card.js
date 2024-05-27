@@ -14,7 +14,7 @@ const Card = ({ type }) => {
 
   return (
     <div>
-       <div className="card">{getEmoji(type)}</div>
+       <div className="card bg-neutral-100">{getEmoji(type)}</div>
     </div>
    );
 };
