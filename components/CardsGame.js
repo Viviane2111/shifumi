@@ -1,7 +1,16 @@
-import Card from "./Card";
+//==================================
+//*    VERSION 1 OF THIS GAME    *//
+//==================================
+
 import React, { useState, useEffect } from "react";
-import { getRandomHand } from "../utils/getRandomHand";
-// import Eyes from "./Eyes";
+import {
+  getRandomHand,
+  getResult,
+  determineFinalResult,
+} from "../utils/gameUtils";
+import Card from "./Card";
+
+// import à utiliser avec la bibliothèque p5
 import dynamic from "next/dynamic";
 const Eyes = dynamic(() => import("./Eyes"), { ssr: false });
 
@@ -17,17 +26,17 @@ export default function CardsGame() {
   const [showFightButton, setShowFightButton] = useState(false);
 
   useEffect(() => {
+    // Démarrer une nouvelle partie
     startNewGame();
   }, []);
 
+  //* Fonction pour démarrer une nouvelle partie
   const startNewGame = () => {
     const playerHand = getRandomHand();
-    console.log("Main du joueur générée :", playerHand); //!
     setPlayerCards(playerHand);
     const randomComputerCard = ["poule", "renard", "vipere"][
       Math.floor(Math.random() * 3)
     ];
-    console.log("Carte de l'ordinateur choisie :", randomComputerCard); //!
     setComputerCard(randomComputerCard);
     setPlayerScore(0);
     setComputerScore(0);
@@ -37,34 +46,29 @@ export default function CardsGame() {
     setSelectedPlayerCard(null);
   };
 
+  //* Fonction pour gérer la sélection d'une carte par le joueur
   const handlePlayerCardClick = (type) => {
     if (selectedPlayerCard) return;
-    console.log("Le joueur a choisi la carte :", type);
     setSelectedPlayerCard(type);
     setShowFightButton(true);
   };
 
+  //* Fonction pour gérer le combat entre la carte du joueur et celle de l'ordinateur
   const handleFight = () => {
     const gameResult = getResult(selectedPlayerCard, computerCard);
-    console.log("Résultat du tour :", gameResult);
     setResult(gameResult);
 
     let newPlayerScore = playerScore;
     let newComputerScore = computerScore;
 
     if (gameResult === "Vous gagnez") {
-      console.log("Le joueur a gagné le tour.");
       newPlayerScore++;
     } else if (gameResult === "Vous perdez") {
-      console.log("Le joueur a perdu le tour.");
       newComputerScore++;
     }
 
     setPlayerScore(newPlayerScore);
     setComputerScore(newComputerScore);
-
-    console.log("Cumul des points - Joueur :", newPlayerScore);
-    console.log("Cumul des points - Ordinateur :", newComputerScore);
 
     const newPlayerCards = [...playerCards];
     const index = newPlayerCards.indexOf(selectedPlayerCard);
@@ -72,18 +76,19 @@ export default function CardsGame() {
       newPlayerCards.splice(index, 1);
     }
 
-    console.log("Main du joueur après le tour :", newPlayerCards);
     setPlayerCards(newPlayerCards);
 
     if (newPlayerCards.length === 0) {
-      console.log("La partie est terminée.");
-      determineFinalResult(newPlayerScore, newComputerScore);
+      const finalResult = determineFinalResult(
+        newPlayerScore,
+        newComputerScore
+      );
+      setFinalResult(finalResult); // Mettre à jour finalResult avec la valeur retournée par determineFinalResult
       setGameOver(true);
     } else {
       const newComputerCard = ["poule", "renard", "vipere"][
         Math.floor(Math.random() * 3)
       ];
-      console.log("Nouvelle carte de l'ordinateur choisie :", newComputerCard);
       setComputerCard(newComputerCard);
       setSelectedPlayerCard(null);
       setResult(null);
@@ -91,44 +96,16 @@ export default function CardsGame() {
     }
   };
 
-  const getResult = (player, computer) => {
-    if (player === computer) return "Égalité";
-    if (
-      (player === "poule" && computer === "vipere") ||
-      (player === "vipere" && computer === "renard") ||
-      (player === "renard" && computer === "poule")
-    ) {
-      return "Vous gagnez";
-    } else {
-      return "Vous perdez";
-    }
-  };
-
-  const determineFinalResult = (finalPlayerScore, finalComputerScore) => {
-    if (finalPlayerScore > finalComputerScore) {
-      setFinalResult(
-        `Vous avez gagné la partie avec ${finalPlayerScore} points !`
-      );
-    } else if (finalPlayerScore < finalComputerScore) {
-      setFinalResult(
-        `L'ordinateur a gagné la partie avec ${finalComputerScore} points !`
-      );
-    } else {
-      setFinalResult("La partie est une égalité.");
-    }
-    console.log("Résultat final :", finalResult);
-  };
-
   return (
     <div>
       <main className="custom-ubuntu-font flex flex-col justify-center items-center min-h-screen py-16">
         <div>
           <h1 className="text-6xl md:text-6xl lg:text-7xl font-semibold leading-normal mb-10">
-            <span className="text-slate-200">Poule</span>
+            <span className="text-slate-200">Shi</span>
             {", "}
-            <span className="text-red-400">Renard</span>
+            <span className="text-red-400">Fu</span>
             {", "}
-            <span className="text-green-400">Vipère</span>
+            <span className="text-green-400">Mi</span>
           </h1>
           {!gameOver && (
             <>
@@ -149,7 +126,8 @@ export default function CardsGame() {
                     marginTop: "-50px",
                     width: "100%",
                     height: "70px",
-                    clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%)",
+                    clipPath:
+                      "polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%)",
                   }}
                 >
                   <Eyes />
@@ -209,12 +187,16 @@ export default function CardsGame() {
           {gameOver && (
             <div className="final-result z-20">
               <h2 className="text-3xl mt-10">{finalResult}</h2>
-              <button
-                onClick={startNewGame}
-                className="mt-5 px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Recommencer
-              </button>
+              <div className="flex ">
+                <button
+                  onClick={startNewGame}
+                  className="m-16 px-7 py-5 bg-blue-500 text-slate-900 text-lg font-semibold rounded-full
+                   bg-gradient-to-r from-red-400 via-slate-200 to-green-400 
+                   transition ease-in-out delay-150 hover:scale-105 duration-200"
+                >
+                  Recommencer
+                </button>
+              </div>
             </div>
           )}
         </div>

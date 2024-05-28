@@ -47,16 +47,21 @@ const Eyes = () => {
             this.p.push();
             this.p.translate(this.x, this.y);
 
+            // Dessiner le contour rouge
             this.p.stroke(255, 0, 0); // Rouge
             this.p.strokeWeight(1); // Épaisseur du contour
+
+            //  Dessin de l'intérieur de l'oeil
             this.p.fill(255);
             this.p.ellipse(0, 0, this.size, this.size * 1.2);
 
+            // Dessin de la pupille
             this.p.rotate(this.angle);
             this.p.fill(60); // couleur en rgb()
             this.p.noStroke();
             this.p.ellipse(this.size / 4, 0, this.size / 2, this.size / 2);
 
+            // Dessin de l'éclat blanc
             this.p.fill(255); // Blanc
             this.p.ellipse(
               this.size / 4,

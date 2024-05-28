@@ -1,3 +1,4 @@
+
 const Card = ({ type }) => {
   const getEmoji = (type) => {
     switch (type) {
@@ -11,11 +12,11 @@ const Card = ({ type }) => {
         return "❓";
     }
   };
-
   return (
     <div>
-       <div className="card bg-neutral-100">{getEmoji(type)}</div>
+      <div className="card bg-neutral-100">{getEmoji(type)}</div>
     </div>
-   );
+  );
 };
+
 export default Card;
