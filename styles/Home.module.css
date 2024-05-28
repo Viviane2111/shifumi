@@ -1,0 +1,41 @@
+.main {
+   display: flex;
+   align-items: center;
+   justify-content: space-around;
+   border: 1px solid;
+}
+.parallax{
+  perspective: 1px; /*Donnez une certaine perspective à un élément positionné en 3D*/
+  -webkit-perspective: 1px;
+  height: 100vh; /*Hauteur pleine de la fenêtre*/
+  overflow-x: hidden; /*spécifie s'il faut découper le contenu*/
+  overflow-y: auto;
+  font-size: 200%;
+}
+  
+ .parallax .layer{
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   padding: 100vh 0;
+}
+.parallax .top{
+   transform: translateZ(0); /*Définit une translation 3D, en utilisant uniquement la valeur de l'axe Z*/
+}
+.parallax .txt1{
+   background: rgba(223, 143, 144, 0.5);
+}
+.parallax .middle{
+   transform: translateZ(-0.5px); /*scale(1.5)*/
+}
+.parallax .txt2{
+   background: rgba(154, 216, 209, 0.5);
+}
+.parallax .back{
+   transform: translateZ(-1px); /*scale(2)*/
+}
+.parallax .txt3{
+   background: rgba(224, 200, 123, 0.5);
+}

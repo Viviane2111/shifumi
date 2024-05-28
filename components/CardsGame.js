@@ -14,7 +14,7 @@ import Card from "./Card";
 import dynamic from "next/dynamic";
 const Eyes = dynamic(() => import("./Eyes"), { ssr: false });
 
-export default function CardsGame() {
+export default function CardsGame({ onGameOver, onStartNewGame }) {
   const [playerCards, setPlayerCards] = useState([]);
   const [computerCard, setComputerCard] = useState(null);
   const [selectedPlayerCard, setSelectedPlayerCard] = useState(null);
@@ -28,6 +28,7 @@ export default function CardsGame() {
   useEffect(() => {
     // Démarrer une nouvelle partie
     startNewGame();
+    onStartNewGame();
   }, []);
 
   //* Fonction pour démarrer une nouvelle partie
@@ -82,9 +83,11 @@ export default function CardsGame() {
       const finalResult = determineFinalResult(
         newPlayerScore,
         newComputerScore
+        
       );
       setFinalResult(finalResult); // Mettre à jour finalResult avec la valeur retournée par determineFinalResult
       setGameOver(true);
+      onGameOver(); // Appeler la fonction de rappel onGameOver
     } else {
       const newComputerCard = ["poule", "renard", "vipere"][
         Math.floor(Math.random() * 3)
@@ -157,7 +160,7 @@ export default function CardsGame() {
                       <div className="">
                         <button
                           onClick={handleFight}
-                          className="my-5 px-4 py-2 bg-red-500 text-white rounded"
+                          className="my-5 px-4 py-2 bg-teal-400 text-black rounded-lg hover:-translate-y-1 hover:scale-105 duration-300"
                         >
                           Commencer le combat
                         </button>
@@ -189,7 +192,10 @@ export default function CardsGame() {
               <h2 className="text-3xl mt-10">{finalResult}</h2>
               <div className="flex ">
                 <button
-                  onClick={startNewGame}
+                  onClick={() => {
+                    startNewGame();
+                    onStartNewGame(); // Appeler la fonction pour réinitialiser l'état de isGameOver
+                  }}
                   className="m-16 px-7 py-5 bg-blue-500 text-slate-900 text-lg font-semibold rounded-full
                    bg-gradient-to-r from-red-400 via-slate-200 to-green-400 
                    transition ease-in-out delay-150 hover:scale-105 duration-200"
