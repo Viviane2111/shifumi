@@ -1,15 +1,14 @@
+ //* DESSIN DES YEUX AUI BOUGNENT EN FONCTION DE LA POSITION DE LA SOURIS *//
+/*  UTILISATION DE LA BIBLIOTHÈQUE P5                                     */
+
 import React, { useRef, useEffect } from "react";
-// import dynamic from "next/dynamic";
 import p5 from "p5";
 
 const Eyes = () => {
   const sketchRef = useRef();
   
-   //  let p5;
     let p5Instance;
 
-   //  const initializeSketch = async () => {
-   //    p5 = await import("p5");
    const initializeSketch = () => {
       const sketch = (p) => {
         let e1;

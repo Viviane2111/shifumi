@@ -6,7 +6,7 @@
   left: -5%;
   width: 110%;
   height: 110%;
-  background-image: url('/shifumi.webp');
+  background-image: url('../public/shifumi.webp');
   background-size: cover;
   background-position: center;
   transition: transform 0.1s ease-out;

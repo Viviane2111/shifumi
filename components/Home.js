@@ -21,7 +21,6 @@ const Home = () => {
   }, []);
 
   return (
-    // <div className="bg-slate-800 text-neutral-200"></div>
     <div>
       <BgParallax isGameOver={isGameOver} />
       <div style={{ position: "relative", zIndex: 1 }}>

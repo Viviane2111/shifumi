@@ -28,7 +28,7 @@ export const BgParallax = ({ isGameOver }) => {
       className={styles.background}
       // style={{ transform: `translate(${offset.offsetX}px, ${offset.offsetY}px)` }}
       style={{
-        backgroundImage: isGameOver ? "url('/shifumi.webp')" : "url('/game.jpg')",
+        backgroundImage: isGameOver ? "url('./shifumi.webp')" : "url('./game.jpg')",
         transform: `translate(${offset.offsetX}px, ${offset.offsetY}px) scale(1.00)`, // Augmenter légèrement le scale pour couvrir les bords
       }}
     />
